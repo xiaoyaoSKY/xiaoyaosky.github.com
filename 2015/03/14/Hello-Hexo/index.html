@@ -25,11 +25,11 @@
 
 
 
-  <title> 归档 // Hexo </title>
+  <title> Hello,Hexo // Hexo </title>
 </head>
 
 <body>
-  <div class="container one-column  page-archive ">
+  <div class="container one-column page-post-detail">
     <div class="headband"></div>
 
     <div id="header" class="header">
@@ -91,34 +91,9 @@
             
           
 
-          <div id="posts" class="posts-collapse">
+          <div id="posts" class="posts-expand">
             
-
-  <span class="archive-move-on"></span>
-
-  <span class="archive-page-counter">
-    
-    
-     
-    
-    嗯..! 目前共计 2 篇日志。 继续努力。
-  </span>
-
   
-
-    
-    
-    
-
-    
-      
-      <div class="collection-title">
-        <h2 class="archive-year motion-element" id="archive-year-2015">2015</h2>
-      </div>
-    
-    
-
-    
 
   <div class="post post-type-normal ">
     <div class="post-header">
@@ -129,9 +104,7 @@
           
           
             
-              <a class="post-title-link" href="/2015/03/14/Hello-Hexo/">
-                Hello,Hexo
-              </a>
+              Hello,Hexo
             
           
         </h1>
@@ -140,7 +113,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              03-14
+              发表于 2015-03-14
             
           </span>
         
@@ -157,66 +130,52 @@
     </div>
 
     
+      <div class="post-body">
 
+        
+        
+
+        
+          <p>一直想找个地方写点东西，翻用过Lofter、CSDN、新浪博客，但是都没坚持下去，大概觉得没什么新意吧（其实就是拖延症惯的，拖着，拖着，就没下文了…）</p>
+<p>后来遇到了<strong>Hexo</strong>，一个逼格极高的程序猿写作环境，一下子激发了“执笔天下”的豪迈之情。希望自己能把博客这个习惯坚持下去，在这里也为自己打个气，加油！</p>
+<p><strong>Hexo</strong>是一个基于Node.js的静态博客程序，编译上百篇的文章也只需要几秒。它生成的静态页面可以直接放到Github Pages上，非常方便。它的作者是台湾大学生<a href="https://github.com/tommy351" target="_blank" rel="external">Tommy</a>。</p>
+<p>另外，感谢<a href="https://github.com/iissnan/" target="_blank" rel="external">Vi</a>提供的主题NexT，精于心，简于形。大爱~</p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/随笔/">
+                #随笔
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+      </div>
     
   </div>
 
 
 
   
-
-    
-    
-    
-
-    
-    
-
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
+    <div class="comments" id="comments">
+      
+        <div class="ds-thread" data-thread-key="2015/03/14/Hello-Hexo/"
+             data-title="Hello,Hexo" data-url="http://yoursite.com/2015/03/14/Hello-Hexo/">
+        </div>
 
       
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/03/06/hello-world/">
-                Hello World
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              03-06
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/03/06/hello-world/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/06/hello-world/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
     </div>
-
-    
-
-    
-  </div>
-
-
-
   
 
           </div>
@@ -236,6 +195,15 @@
 <div id="sidebar" class="sidebar">
   <div class="sidebar-inner">
 
+    
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview" data-target="site-overview">
+          站点概览
+        </li>
+      </ul>
     
 
     <div class="site-overview">
@@ -267,6 +235,10 @@
 
     </div>
 
+    
+      <div class="post-toc sidebar-panel-active">
+        
+      </div>
     
   </div>
 </div>
@@ -452,10 +424,263 @@
 
   
   
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      if ($('.post-toc').html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var activeCurrentSelector = '.active-current';
+
+    $(tocSelector)
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass()
+        $currentActiveElement.addClass('active-current');
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass()
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    $('body').scrollspy({ target: tocSelector });
+  });
+</script>
+
 
 
   
